@@ -1,5 +1,7 @@
-const { createPost } = require("./createPost");
+const { _createPost } = require("./createPost");
+const { _editPost } = require("./editPost");
 
 module.exports = {
-  createPostSchema: createPost,
+  createPostSchema: _createPost,
+  editPostSchema: _editPost,
 };

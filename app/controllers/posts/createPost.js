@@ -6,20 +6,22 @@ const {
 } = require("../../services/errors");
 const { successResponse, failureResponse } = require("../../services/response");
 
-exports.createPost = async (req, res) => {
+exports._createPost = async (req, res) => {
   const body = req.body;
   try {
     if (!createPostSchema(body).valid) {
       return throwRequestError("Invalid fields in the request body");
     }
 
-    console.log("Payload UID : ", req.payload.uid);
+    console.log("_createPost");
 
-    const userFromDb = dbService.read({
-      collectionType: "USERS",
+    console.log("Payload UID : ", req.headerPayload.uid);
+
+    const [userFromDb] = dbService.read({
+      collection: "USERS",
       filter: {
         operand: "uid",
-        value: req.payload.uid,
+        value: req.headerPayload.uid,
       },
     });
 
@@ -27,12 +29,12 @@ exports.createPost = async (req, res) => {
       return throwRequestError("User not allowed to create a Post");
     }
 
-    if (userFromDb.uid !== req.payload.uid) {
+    if (userFromDb.uid !== req.headerPayload.uid) {
       return throwRequestError("Invalid credentials");
     }
 
     const result = dbService.create({
-      collectionType: "POSTS",
+      collection: "POSTS",
       data: {
         ...body,
       },

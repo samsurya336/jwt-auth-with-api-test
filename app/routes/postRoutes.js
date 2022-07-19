@@ -1,37 +1,32 @@
 const express = require("express");
-const { createPostController } = require("../controllers/posts");
+const {
+  createPostController,
+  editPostController,
+} = require("../controllers/posts");
 const {
   accessTokenValidationMiddleware,
 } = require("../middlewares/accessTokenValidationMiddleware");
 
 const router = express.Router();
 
-router.post(
-  "/:userType/create",
-  [accessTokenValidationMiddleware],
-  createPostController
-);
+router.post("/create", [accessTokenValidationMiddleware], createPostController);
 
-router.patch(
-  "/:userType/update",
-  [accessTokenValidationMiddleware],
-  createPostController
-);
+router.patch("/edit", [accessTokenValidationMiddleware], editPostController);
 
 router.delete(
-  "/:userType/delete",
+  "/delete",
   [accessTokenValidationMiddleware],
   createPostController
 );
 
 router.get(
-  "/:userType/getWithPostId",
+  "/getWithPostId",
   [accessTokenValidationMiddleware],
   createPostController
 );
 
 router.get(
-  "/:userType/getUserAllPosts",
+  "/getUserAllPosts",
   [accessTokenValidationMiddleware],
   createPostController
 );

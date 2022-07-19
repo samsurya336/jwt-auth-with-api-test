@@ -1,5 +1,6 @@
-const { auth } = require("./auth");
+const { _userAuth, _adminAuth } = require("./auth");
 
 module.exports = {
-  authSchema: auth,
+  userAuthSchema: _userAuth,
+  adminAuthSchema: _adminAuth,
 };

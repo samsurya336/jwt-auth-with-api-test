@@ -18,5 +18,12 @@ exports.failureResponse = (response, error) => {
           stack: error.stack,
         }
       : {}),
+    ...(process.env.STAGING === "dev" && error.info
+      ? {
+          info: {
+            ...error.info,
+          },
+        }
+      : {}),
   });
 };

@@ -5,7 +5,7 @@ const { failureResponse } = require("../services/response");
 exports.accessTokenValidationMiddleware = async (req, res, next) => {
   try {
     if (!req.headers) throwInvalidHeaderError("Invalid credentials");
-
+    console.log("req.headers : ", req.headers);
     if (!req.headers["authorization"])
       throwInvalidHeaderError("Auth token not provided");
 
@@ -19,11 +19,13 @@ exports.accessTokenValidationMiddleware = async (req, res, next) => {
 
     const payload = jwt.verify(token, process.env.JWT_SECRET);
 
-    req.payload = {};
-    req.payload.uid = payload.uid;
+    req.headerPayload = {
+      ...payload,
+    };
 
     next();
   } catch (error) {
+    console.log("ERROR : ", error);
     return failureResponse(res, error);
   }
 };
